@@ -1,0 +1,36 @@
+from random import randint
+
+cardFile = open("cards.txt", "r")
+cards = []
+excludedHandsIndex = []
+
+class HandDealt:
+    def __init__(self, indexCard1=None, indexCard2=None):
+        if indexCard1 is None or indexCard2 is None:
+            self.dealcard()  # auto-deal on create
+        else:
+            self.indexCard1 = indexCard1
+            self.indexCard2 = indexCard2
+
+    def dealcard(self):
+        # pick two different indices in [0, 51]
+        self.indexCard1 = randint(0, 51)
+        self.indexCard2 = randint(0, 51)
+        while self.indexCard1 == self.indexCard2:
+            self.indexCard2 = randint(0, 51)
+
+# read cards.txt
+line = cardFile.readline().strip()
+while line != "":
+    cards.append(line)
+    line = cardFile.readline().strip()
+
+hand = HandDealt()  #  create an instance; __init__ calls dealcard(
+
+# exclude hands
+excludedHandsIndex += [hand.indexCard1, hand.indexCard2]
+print(excludedHandsIndex)
+
+print(cards)
+print(hand.indexCard1, hand.indexCard2)
+print(cards[hand.indexCard1], cards[hand.indexCard2])
